@@ -1,4 +1,4 @@
-package co.edu.utp.reto4.util;
+package co.edu.utp.reto5.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
