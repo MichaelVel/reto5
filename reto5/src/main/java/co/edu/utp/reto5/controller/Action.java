@@ -5,4 +5,5 @@ public enum Action {
 	FreeSearch,
 	RelationalSchema,
 	Back,
+	None,
 }
