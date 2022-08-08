@@ -1,12 +1,13 @@
 package co.edu.utp.reto5;
 
 
-import co.edu.utp.reto5.view.*;
+import co.edu.utp.reto5.controller.ReportsController;
+
 
 public class App 
 {
     public static void main( String[] args )
     {
-    	MainView.createAndShowGUI();
+    	var controller = new ReportsController();
     }
 }
