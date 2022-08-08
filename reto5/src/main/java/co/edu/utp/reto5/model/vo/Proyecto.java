@@ -17,6 +17,18 @@ public class Proyecto implements ReportVo {
 		this.ciudad =rs.getString("Ciudad");
 		
 	}
+
+	@Override
+	public Object[] getData() {
+		Object[] data = {id, constructora, nHabitaciones, ciudad};
+		return data;
+	}
+
+	@Override
+	public Object[] getNames() {
+		Object[] names = {"ID", "Constructora", "Numero Habitaciones", "Ciudad"};
+		return names;
+	}
 	
 	
 }

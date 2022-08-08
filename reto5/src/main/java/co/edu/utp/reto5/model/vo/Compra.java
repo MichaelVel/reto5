@@ -2,6 +2,7 @@ package co.edu.utp.reto5.model.vo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Compra implements ReportVo{
 	int id;
@@ -14,5 +15,17 @@ public class Compra implements ReportVo{
 		this.constructora =rs.getString("Constructora");
 		this.bancoVinculado = rs.getString("Banco_Vinculado");
 		
+	}
+
+	@Override
+	public Object[] getData() {
+		Object[] data = {id, constructora, bancoVinculado};
+		return data;
+	}
+
+	@Override
+	public Object[] getNames() {
+		Object[] names = {"ID", "Constructora", "Banco Vinculado"};
+		return names;
 	}
 }
