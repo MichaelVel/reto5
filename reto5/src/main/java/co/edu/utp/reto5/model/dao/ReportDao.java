@@ -15,16 +15,13 @@ public class ReportDao {
 		var reportEntrys = new ArrayList<ReportVo>();
 		
 		String query;
-		ReportVo reportEntry;
 		switch(rep) {
 			case First:
-				reportEntry = new Lider();
 				query = "SELECT ID_Lider, Nombre, Primer_Apellido, Ciudad_Residencia \n"
 						+ "FROM Lider l ORDER BY Ciudad_Residencia;";
 				
 				break;
 			case Second:
-				reportEntry = new Proyecto();
 				query = "SELECT ID_Proyecto, Constructora, Numero_Habitaciones, Ciudad \n"
 						+ "FROM Proyecto p\n"
 						+ "WHERE Clasificacion ='Casa Campestre' AND \n"
@@ -32,7 +29,6 @@ public class ReportDao {
 						+ "ORDER BY Ciudad;";
 				break;
 			default:
-				reportEntry = new Compra();
 				query = "SELECT  ID_Compra, Constructora, Banco_Vinculado \n"
 						+ "FROM Compra c JOIN Proyecto p USING(ID_Proyecto)\n"
 						+ "WHERE Proveedor = 'Homecenter' AND p.Ciudad='Salento'\n"
@@ -45,6 +41,18 @@ public class ReportDao {
 			 ResultSet rs = stm.executeQuery(query);
 			 ) {
 			while (rs.next()) {
+				ReportVo reportEntry;
+				switch(rep) {
+				case First:
+					reportEntry = new Lider();
+					break;
+				case Second:
+					reportEntry = new Proyecto();
+					break;
+				default:
+					reportEntry = new Compra();
+					break;
+				}
 				reportEntry.setValues(rs);
 				reportEntrys.add(reportEntry);
 			}
@@ -53,6 +61,6 @@ public class ReportDao {
 		}
 		return reportEntrys;
 	}
-
+	
 
 }

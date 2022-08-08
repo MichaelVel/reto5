@@ -4,4 +4,5 @@ public enum Report {
 	First,
 	Second,
 	Third,
+	None,
 }
