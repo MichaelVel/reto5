@@ -30,7 +30,13 @@ public class ReportsController implements ActionListener{
 		setAction(getAction(e.getActionCommand()));
 		switch (action) {
 		case Back:
-			window.changePanel(new MainPanel());
+			String viewName = window.getView().getViewName();		// In InfoView this method is overloaded to also return from 
+																	// which view the report was generated
+			if (viewName.equals("InfoPanel:SearchView")) {
+				window.changePanel(new SearchView());
+			} else {
+				window.changePanel(new MainPanel());
+			}
 			setController();
 			break;
 		case FreeSearch:
@@ -55,14 +61,22 @@ public class ReportsController implements ActionListener{
 					try {
 						var info = model.getReport(query);
 						window.getView().showOutput("Operacion Exitosa: Cargando resultados.");
-						window.changePanel(new InfoPanel(info,"INFORME PERSONALIZADO"));
+						window.changePanel(new InfoPanel(
+								info,
+								"INFORME PERSONALIZADO",
+								window.getView().getViewName()
+								));
+						setController();
 					} catch (InvalidQueryException error) {
 						window.getView().showOutput(error.getMessage());
 					}
 					return;
 				default: break;
 			}
-			window.changePanel(new InfoPanel(model.getReport(report),reportName));
+			window.changePanel(new InfoPanel(
+					model.getReport(report),
+					reportName,
+					window.getView().getViewName()));
 			setController();
 			break;
 		case RelationalSchema:

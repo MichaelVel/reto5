@@ -14,7 +14,7 @@ public abstract class ReportView extends JPanel {
 	public abstract void setController(ReportsController controller);
 	
 	public abstract Report getReport();
-	
+		
 	public abstract String getQuery();
 	
 	public abstract void showOutput(String text);
@@ -24,6 +24,10 @@ public abstract class ReportView extends JPanel {
 		panel.setOpaque(false);
 		panel.setPreferredSize(new Dimension(x,y));
 		return panel;
+	}
+	
+	public String getViewName() {
+		return this.getClass().getSimpleName();
 	}
 	
 	public JButton makeButton(String name, String actionCommand, int x, int y) {

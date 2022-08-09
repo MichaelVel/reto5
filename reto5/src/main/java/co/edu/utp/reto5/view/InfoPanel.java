@@ -21,10 +21,12 @@ import co.edu.utp.reto5.model.vo.ReportVo;
 public class InfoPanel extends ReportView  {
 	private static final long serialVersionUID = 1L;
 	private String reportName;
+	private String from;
 	private ArrayList<ReportVo> reportInfo;
 	private JButton returnButton;
 	
-	public InfoPanel(ArrayList<ReportVo> info, String name) {
+	public InfoPanel(ArrayList<ReportVo> info, String name, String from) {
+		this.from = from;
 		reportName = name;
 		reportInfo = info;
 		addComponentsToPanel();
@@ -80,6 +82,11 @@ public class InfoPanel extends ReportView  {
 	@Override
 	public Report getReport() {
 		return Report.None;
+	}
+	
+	@Override
+	public String getViewName() {
+		return this.getClass().getSimpleName() + ":" + from;
 	}
 
 	@Override
