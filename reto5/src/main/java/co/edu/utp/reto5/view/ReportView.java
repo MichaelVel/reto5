@@ -2,6 +2,7 @@ package co.edu.utp.reto5.view;
 
 import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import co.edu.utp.reto5.controller.ReportsController;
@@ -14,12 +15,22 @@ public abstract class ReportView extends JPanel {
 	
 	public abstract Report getReport();
 	
+	public abstract String getQuery();
+	
+	public abstract void showOutput(String text);
+	
 	public JPanel space(int x, int y) {
 		var panel = new JPanel();
 		panel.setOpaque(false);
 		panel.setPreferredSize(new Dimension(x,y));
 		return panel;
 	}
-
+	
+	public JButton makeButton(String name, String actionCommand, int x, int y) {
+		var button = new JButton(name);
+		button.setActionCommand(actionCommand);
+		button.setPreferredSize(new Dimension(x,y));
+		return button;
+	}
 	
 }

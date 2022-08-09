@@ -34,6 +34,8 @@ public class ReportsController implements ActionListener{
 			setController();
 			break;
 		case FreeSearch:
+			window.changePanel(new SearchView());
+			setController();
 			break;
 		case GenerateReport:
 			String reportName = "";
@@ -48,6 +50,16 @@ public class ReportsController implements ActionListener{
 				case Third:
 					reportName = "INFORME 3: COMPRAS";
 					break;
+				case FreeSearch:
+					String query = window.getView().getQuery();
+					try {
+						var info = model.getReport(query);
+						window.getView().showOutput("Operacion Exitosa: Cargando resultados.");
+						window.changePanel(new InfoPanel(info,"INFORME PERSONALIZADO"));
+					} catch (InvalidQueryException error) {
+						window.getView().showOutput(error.getMessage());
+					}
+					return;
 				default: break;
 			}
 			window.changePanel(new InfoPanel(model.getReport(report),reportName));
@@ -62,7 +74,6 @@ public class ReportsController implements ActionListener{
     }
 	
 	private Action getAction(String action) {
-		//System.out.println(action);
 		switch(action) {
 			case "back": return Action.Back;
 			case "freeSearch": return Action.FreeSearch;

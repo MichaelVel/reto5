@@ -81,4 +81,15 @@ public class InfoPanel extends ReportView  {
 	public Report getReport() {
 		return Report.None;
 	}
+
+	@Override
+	public void showOutput(String text) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public String getQuery() {
+		// TODO Auto-generated method stub
+		return "";
+	}
 }

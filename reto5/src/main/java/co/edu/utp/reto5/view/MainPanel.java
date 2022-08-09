@@ -1,20 +1,19 @@
 package co.edu.utp.reto5.view;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Window;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import co.edu.utp.reto5.controller.ReportsController;
 import co.edu.utp.reto5.model.dao.Report;
@@ -23,6 +22,7 @@ public class MainPanel extends ReportView {
 	private static final long serialVersionUID = 1L;
 	private JComboBox<Object> infoMainSelect;
 	private JButton infoMainButton;
+	private JButton searchButton;
 		
 	public MainPanel() {
 		 addComponentsToPane();
@@ -45,7 +45,7 @@ public class MainPanel extends ReportView {
        var infoMain = new JPanel();
        infoMain.setOpaque(false);
        infoMain.setLayout(new FlowLayout(FlowLayout.LEFT));
-       infoMain.setPreferredSize(new Dimension(300,200));
+       infoMain.setPreferredSize(new Dimension(300,100));
        infoMain.setBorder(
                BorderFactory.createCompoundBorder(
                    BorderFactory.createCompoundBorder(
@@ -61,26 +61,37 @@ public class MainPanel extends ReportView {
        infoMainButton = new JButton("Generar");
        infoMainButton.setActionCommand("generate");
              
-       infoMain.add(space(300,15));
+       info.add(Box.createVerticalStrut(10));
        infoMain.add(infoMainText);
        infoMain.add(infoMainSelect);
        infoMain.add(infoMainButton);
        
        var infoOther = new JPanel();
        infoOther.setOpaque(false);
-       infoOther.setPreferredSize(new Dimension(300,200));
+       infoOther.setLayout(new FlowLayout(FlowLayout.LEFT));
+       infoOther.setPreferredSize(new Dimension(300,150));
        infoOther.setBorder(
                BorderFactory.createCompoundBorder(
                    BorderFactory.createCompoundBorder(	
                                    BorderFactory.createTitledBorder("CONSULTA LIBRE"),
                                    BorderFactory.createEmptyBorder(5,5,5,5)),
                    infoOther.getBorder()));
+       var searchText = new JLabel("<html>Editor SQL: Puedes realizar consultas simples a la base de datos."
+    		   					   + " Solo estan soportadas operaciones de lectura.</html>");
+       searchText.setPreferredSize(new Dimension(265,50));
+       searchText.setFont( new Font("Verdana",Font.PLAIN,12));
+       searchButton = new JButton("Nueva Consulta");
+       searchButton.setActionCommand("freeSearch");
        
-       info.add(space(300,95));
+       infoOther.add(searchText);
+       info.add(Box.createVerticalStrut(10));
+       infoOther.add(searchButton);
+       
+       info.add(Box.createVerticalStrut(30));
        info.add(infoMain);
-       info.add(space(300,10));
+       info.add(Box.createVerticalStrut(10));
        info.add(infoOther);
-       info.add(space(300,95));
+       info.add(Box.createVerticalStrut(300));
        
        add(img);
        add(info);
@@ -109,6 +120,19 @@ public class MainPanel extends ReportView {
 	@Override
 	public void setController(ReportsController controller) {
 		infoMainButton.addActionListener(controller);
+		searchButton.addActionListener(controller);
+	}
+
+	@Override
+	public void showOutput(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getQuery() {
+		// TODO Auto-generated method stub
+		return "";
 	}
 	
 	

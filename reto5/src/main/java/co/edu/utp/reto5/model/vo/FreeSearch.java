@@ -8,6 +8,10 @@ import java.util.Map;
 public class FreeSearch implements ReportVo {
 	LinkedHashMap<String,String> data;
 	
+	
+	public FreeSearch() {
+		data = new LinkedHashMap<String,String>();
+	}
 	@Override
 	public void setValues(ResultSet rs) throws SQLException {
 		var dbmeta = rs.getMetaData();

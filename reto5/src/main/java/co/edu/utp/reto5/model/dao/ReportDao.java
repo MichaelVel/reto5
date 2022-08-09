@@ -1,5 +1,6 @@
 package co.edu.utp.reto5.model.dao;
 
+import java.util.regex.*;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -61,6 +62,32 @@ public class ReportDao {
 		}
 		return reportEntrys;
 	}
+	
+	public ArrayList<ReportVo> getReport(String query) throws InvalidQueryException {
+		var reportEntrys = new ArrayList<ReportVo>();
+		
+		Pattern pattern = Pattern.compile("insert|delete|create");
+		Matcher matcher = pattern.matcher(query.toLowerCase());
+		
+		if (matcher.find()) {
+			throw new InvalidQueryException("Operacion Invalida: Base de datos de solo lectura.");
+		}
+		
+		try (Connection conn = JDBCUtilities.getConnection();
+				 Statement stm = conn.createStatement();
+				 ResultSet rs = stm.executeQuery(query);
+				 ) {
+				while (rs.next()) {
+					ReportVo reportEntry = new FreeSearch();
+					reportEntry.setValues(rs);
+					reportEntrys.add(reportEntry);
+				}
+			} catch (SQLException e) {
+				throw new InvalidQueryException("SQL Error: " + e.getMessage());
+			}
+		return reportEntrys;
+	}
+	
 	
 
 }
