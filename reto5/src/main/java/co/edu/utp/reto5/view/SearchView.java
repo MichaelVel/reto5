@@ -21,13 +21,11 @@ import co.edu.utp.reto5.controller.ReportsController;
 import co.edu.utp.reto5.model.dao.Report;
 import co.edu.utp.reto5.model.vo.ReportVo;
 
-public class SearchView extends ReportView  {
+public class SearchView extends ReportPanel  {
 	private static final long serialVersionUID = 1L;
 	
 	private String defaultMssg = "Realiza una consulta.";
-	private int xButtonSize = 130;
-	private int yButtonSize = 25;
-	
+		
 	private JButton returnButton;
 	private JButton generateButton;
 	private JButton schemaButton;
@@ -43,12 +41,12 @@ public class SearchView extends ReportView  {
 	   setBackground(Color.white);
 	   
        var header = new JPanel();
-       header.setBackground(Color.blue);
+       header.setBackground(MainView.PRIMARY_COLOR);
        header.setPreferredSize(new Dimension(1000,100));
        var headerTitle = new JLabel("CONSULTA LIBRE");
        headerTitle.setForeground(Color.white);
        headerTitle.setFont( new Font("Verdana",Font.BOLD,30));
-       header.add(space(1000,15));
+       header.add(space(1000,15, MainView.PRIMARY_COLOR));
        header.add(headerTitle);
        
        
@@ -115,6 +113,7 @@ public class SearchView extends ReportView  {
        main.add(mainPanel);
        
        add(header);
+       add(space(1000,5,MainView.SECONDARY_COLOR));
        add(Box.createVerticalStrut(25));
        add(main);
     }
@@ -140,5 +139,11 @@ public class SearchView extends ReportView  {
 	@Override
 	public String getQuery() {
 		return editor.getText();
+	}
+
+	@Override
+	public void setQuery(String text) {
+		editor.setText(text);
+		
 	}
 }
