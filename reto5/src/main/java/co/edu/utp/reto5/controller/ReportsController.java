@@ -2,10 +2,6 @@ package co.edu.utp.reto5.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import javax.swing.JFrame;
-
 import co.edu.utp.reto5.model.dao.*;
 import co.edu.utp.reto5.view.*;
 
@@ -24,7 +20,6 @@ public class ReportsController implements ActionListener{
 		this.action = action;
 	}
 	
-		
 	@Override
     public void actionPerformed(ActionEvent e) {
 		setAction(getAction(e.getActionCommand()));
@@ -34,6 +29,8 @@ public class ReportsController implements ActionListener{
 																	// which view the report was generated
 			if (viewName.equals("InfoPanel:SearchView")) {
 				window.changePanel(new SearchView());
+				String query = model.getQuery(Report.FreeSearch);
+				window.getView().setQuery(query);
 			} else {
 				window.changePanel(new MainPanel());
 			}
@@ -80,19 +77,35 @@ public class ReportsController implements ActionListener{
 			setController();
 			break;
 		case RelationalSchema:
+			new SchemaView();
+			break;
+		case ViewEditor:
+			String rep = window.getView().getReportName();
+			window.changePanel(new SearchView());
+			String query = model.getQuery(getTypeReport(rep));
+			window.getView().setQuery(query);
+			setController();
 			break;
 		case None:
 			break;
+		
 		}
         
     }
 	
+	private Report getTypeReport(String name) {
+		if (name.contains("1")) { return Report.First;  } 
+		if (name.contains("2")) { return Report.Second; } 
+		if (name.contains("3")) { return Report.Third;  } 
+		return Report.FreeSearch;
+	}
 	private Action getAction(String action) {
 		switch(action) {
 			case "back": return Action.Back;
 			case "freeSearch": return Action.FreeSearch;
 			case "generate": return Action.GenerateReport;
 			case "schema": return Action.RelationalSchema;
+			case "editor": return Action.ViewEditor;
 			default: return Action.None;
 		}
 	}
