@@ -1,5 +1,6 @@
 package co.edu.utp.reto5.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
@@ -8,24 +9,21 @@ import javax.swing.JPanel;
 import co.edu.utp.reto5.controller.ReportsController;
 import co.edu.utp.reto5.model.dao.Report;
 
-public abstract class ReportView extends JPanel {
+public abstract class ReportPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+	protected int xButtonSize = 130;
+	protected int yButtonSize = 25;
 	
 	public abstract void setController(ReportsController controller);
 	
-	public abstract Report getReport();
-		
-	public abstract String getQuery();
-	
-	public abstract void showOutput(String text);
-	
-	public JPanel space(int x, int y) {
+	// Utility methods
+	public JPanel space(int x, int y, Color col) {
 		var panel = new JPanel();
-		panel.setOpaque(false);
+		panel.setBackground(col);
 		panel.setPreferredSize(new Dimension(x,y));
 		return panel;
 	}
-	
+		
 	public String getViewName() {
 		return this.getClass().getSimpleName();
 	}
@@ -37,4 +35,17 @@ public abstract class ReportView extends JPanel {
 		return button;
 	}
 	
+		
+	// This methods are only used by some derived classes which override them. Is not worth make them
+	// abstract.
+	
+	public Report getReport() { return Report.None; }
+	
+	public void showOutput(String text) { }
+	
+	public String getReportName() { return ""; }
+	
+	public String getQuery() { return ""; }
+	
+	public void setQuery(String text) {	}
 }
