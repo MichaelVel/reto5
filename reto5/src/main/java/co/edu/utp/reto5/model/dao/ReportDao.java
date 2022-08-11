@@ -65,7 +65,7 @@ public class ReportDao {
 			throw new InvalidQueryException("Realiza una consulta.");
 		}
 		
-		Pattern pattern = Pattern.compile("insert|delete|create");
+		Pattern pattern = Pattern.compile("insert|delete|create|drop|alter|truncate|update|set");
 		Matcher matcher = pattern.matcher(query.toLowerCase());
 		if (matcher.find()) {
 			throw new InvalidQueryException("Operacion Invalida: Base de datos de solo lectura.");
