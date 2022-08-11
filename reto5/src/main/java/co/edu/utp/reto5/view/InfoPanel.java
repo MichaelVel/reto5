@@ -7,8 +7,10 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,8 +25,13 @@ public class InfoPanel extends ReportPanel  {
 	private String reportName;
 	private String from;
 	private ArrayList<ReportVo> reportInfo;
+	@SuppressWarnings("rawtypes")
+	private JComboBox infoMainSelect;
 	private JButton returnButton;
 	private JButton showInEditorButton;
+	private JScrollPane mainTable;
+	private JLabel headerTitle;
+	private JPanel main;
 	
 	public InfoPanel(ArrayList<ReportVo> info, String name, String from) {
 		this.from = from;
@@ -42,26 +49,32 @@ public class InfoPanel extends ReportPanel  {
        header.setBackground(MainView.PRIMARY_COLOR);
        header.setPreferredSize(new Dimension(1000,100));
        
-       var headerTitle = new JLabel(reportName);
+       headerTitle = new JLabel(reportName);
        headerTitle.setForeground(Color.white);
        headerTitle.setFont( new Font("Verdana",Font.BOLD,30));
        header.add(space(1000,15,MainView.PRIMARY_COLOR));
        header.add(headerTitle);
        
        // Main Section
-       var main = new JPanel();
+       main = new JPanel();
        main.setBackground(Color.white);
        main.setPreferredSize(new Dimension(1000,500));
              
-       var mainTable = new JScrollPane(makeTable());
+       mainTable = new JScrollPane(makeTable());
        mainTable.setPreferredSize(new Dimension(800,400));
-      
+       
        var mainExtra = new JPanel();
        mainExtra.setPreferredSize(new Dimension(800,50));
        mainExtra.setOpaque(false);
        mainExtra.setLayout(new FlowLayout(FlowLayout.RIGHT));
        returnButton = makeButton("Regresar", "back", xButtonSize, yButtonSize);
        showInEditorButton = makeButton("Editor", "editor", xButtonSize, yButtonSize);
+       var infoMainText = new JLabel("Seleccione Reporte: ");
+       infoMainText.setPreferredSize(new Dimension(125,20));
+       String options[] = {"Reportes", "Informe 1", "Informe 2", "Informe 3"};
+       infoMainSelect = new JComboBox<Object>(options);
+       mainExtra.add(infoMainText);
+       mainExtra.add(infoMainSelect);
        mainExtra.add(showInEditorButton);
        mainExtra.add(returnButton);
        
@@ -85,6 +98,7 @@ public class InfoPanel extends ReportPanel  {
 	public void setController(ReportsController controller) {
 			returnButton.addActionListener(controller);
 			showInEditorButton.addActionListener(controller);
+			infoMainSelect.addItemListener(controller);
 	}
 
 	@Override
@@ -100,6 +114,21 @@ public class InfoPanel extends ReportPanel  {
 	@Override
 	public String getReportName() {
 		return this.reportName;
-		}
+	}
+	
+	public void redrawTable(ArrayList<ReportVo> report) {
+		reportInfo = report;
+		
+	    mainTable = new JScrollPane(makeTable());
+	    mainTable.setPreferredSize(new Dimension(800,400));
+	    
+	    main.remove(0);
+		main.add(mainTable, 0);	
+	}
+	
+	public void redrawTitle(String reportName) {
+		this.reportName = reportName;
+		headerTitle.setText(reportName);
+	}
 
 }

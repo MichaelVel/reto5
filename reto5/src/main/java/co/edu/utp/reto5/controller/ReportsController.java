@@ -2,10 +2,13 @@ package co.edu.utp.reto5.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import co.edu.utp.reto5.model.dao.*;
 import co.edu.utp.reto5.view.*;
 
-public class ReportsController implements ActionListener{
+public class ReportsController implements ActionListener, ItemListener{
 	Action action;
 	MainView window;
 	ReportDao model;
@@ -99,6 +102,7 @@ public class ReportsController implements ActionListener{
 		if (name.contains("3")) { return Report.Third;  } 
 		return Report.FreeSearch;
 	}
+	
 	private Action getAction(String action) {
 		switch(action) {
 			case "back": return Action.Back;
@@ -113,5 +117,45 @@ public class ReportsController implements ActionListener{
 	public void setController() {
 	        window.getView().setController(this);
 	    }
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// Specific to InfoPanel, if more items events where added this code should be refactor 
+		// to reflect the change. 
+		if (e.getStateChange() == ItemEvent.DESELECTED) {
+			return;
+		}
+		
+		InfoPanel panel = (InfoPanel) window.getView();
+		String currentReport = (String) e.getItem();
+		
+		String viewReportName = panel.getReportName().toLowerCase();
+		if (viewReportName.contains(currentReport.toLowerCase())) { // Not redraw the current report
+			return;
+		}
+		
+		Report report = Report.None;
+		String reportName = "";
+		switch(currentReport) {
+			case "Reportes":
+				return;
+			case "Informe 1": 
+				report = Report.First;
+				reportName = "INFORME 1: LIDERES";
+				break;
+			case "Informe 2": 
+				report = Report.Second;
+				reportName = "INFORME 2: PROYECTOS";
+				break;
+			case "Informe 3": 
+				report = Report.Third;
+				reportName = "INFORME 3: COMPRAS";
+				break;
+			default:
+				break;
+		}
+		panel.redrawTable(model.getReport(report));
+		panel.redrawTitle(reportName);
+	}	
 
 }
